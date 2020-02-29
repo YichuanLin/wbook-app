@@ -1,6 +1,7 @@
 import React from 'react';
+import BookCard from '../../../components/book-card';
 
-export const BookListAsync = ({ error, list, isFetching }) => {
+export const BookListAsync = ({ error, list, isFetching, addItemsToShoppingCart }) => {
   if (isFetching) {
     return (
       <div className="book-list-async__loader-wrapper">
@@ -16,9 +17,9 @@ export const BookListAsync = ({ error, list, isFetching }) => {
     return <p>Empty...</p>;
   }
 
-  return (
-    <div className="book-list-async">
-      <pre>{JSON.stringify(list, null, 2)}</pre>
-    </div>
-  );
+  const books = list.map((item, index) => (
+    <BookCard key={index} book={item} addItemsToShoppingCart={addItemsToShoppingCart} />
+  ));
+
+  return <div className="book-list-async">{books}</div>;
 };

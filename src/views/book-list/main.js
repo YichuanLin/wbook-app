@@ -6,7 +6,14 @@ import { connect } from 'react-redux';
 
 import './main.scss';
 
-export const BookListBeConnected = ({ list, books, error, loading, saveBooks }) => {
+export const BookListBeConnected = ({
+  list,
+  books,
+  error,
+  loading,
+  saveBooks,
+  addItemsToShoppingCart,
+}) => {
   const haveToSave = useMemo(() => !error || !loading, [error, loading]);
   const saveList = useCallback(() => {
     saveBooks(list);
@@ -16,7 +23,14 @@ export const BookListBeConnected = ({ list, books, error, loading, saveBooks }) 
       saveList();
     }
   }, [saveList, haveToSave]);
-  return <BookListAsync error={error} list={books} isFetching={loading} />;
+  return (
+    <BookListAsync
+      error={error}
+      list={books}
+      isFetching={loading}
+      addItemsToShoppingCart={addItemsToShoppingCart}
+    />
+  );
 };
 
 const mapStateToProps = state => ({
@@ -25,6 +39,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   saveBooks: books => dispatch(ACTIONS_CREATOR.bookListFetchDataSuccess(books)),
+  addItemsToShoppingCart: item => dispatch(ACTIONS_CREATOR.addItemsToShoppingCart(item)),
 });
 
 export const BookList = connect(mapStateToProps, mapDispatchToProps)(BookListBeConnected);
