@@ -8,6 +8,12 @@ const addItemsToShoppingCart = data => ({
   payload: data,
 });
 
+const removeItemsToShoppingCart = data => ({
+  type: ACTIONS.SHOPPING_CART_REMOVE_ITEM,
+  payload: data,
+});
+
 export const ACTIONS_CREATOR = {
   addItemsToShoppingCart,
+  removeItemsToShoppingCart,
 };

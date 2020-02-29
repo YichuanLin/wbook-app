@@ -1,1 +1,18 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  &--links {
 
+    &--item {
+      color: #FFFFFF;
+    }
+  }
+}
+
+.App {
+  .main-router-wrapper {
+    margin: 0 10vw;
+  }
+}

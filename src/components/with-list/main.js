@@ -18,7 +18,7 @@ const mockResponse = () => {
       price: id,
     };
   };
-  return [getItem(111), getItem(222), getItem(333)];
+  return [getItem(111), getItem(222), getItem(333), getItem(444)];
 };
 
 export const WithList = ({ children }) => {
@@ -43,7 +43,8 @@ export const WithList = ({ children }) => {
         },
       };
       try {
-        const response = await axios(options);
+        // const response = await axios(options);
+        await axios(options);
         setLoading(false);
         // setList(response.data);
         setList(mockResponse());
