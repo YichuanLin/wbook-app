@@ -1,45 +1,9 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
-import BookListAsync from './book-list-async';
-import { ACTIONS_CREATOR } from '../../store/actions';
-import { getListFromBookListSelector } from '../../store/selectors';
-import { connect } from 'react-redux';
+import React from 'react';
+import WithList from '../../components/with-list';
+import BookListConnected from './book-list-connected';
 
-import './main.scss';
-
-export const BookListBeConnected = ({
-  list,
-  books,
-  error,
-  loading,
-  saveBooks,
-  addItemsToShoppingCart,
-}) => {
-  const haveToSave = useMemo(() => !error || !loading, [error, loading]);
-  const saveList = useCallback(() => {
-    saveBooks(list);
-  }, [list, saveBooks]);
-  useEffect(() => {
-    if (haveToSave) {
-      saveList();
-    }
-  }, [saveList, haveToSave]);
-  return (
-    <BookListAsync
-      error={error}
-      list={books}
-      isFetching={loading}
-      addItemsToShoppingCart={addItemsToShoppingCart}
-    />
-  );
-};
-
-const mapStateToProps = state => ({
-  books: getListFromBookListSelector(state),
-});
-
-const mapDispatchToProps = dispatch => ({
-  saveBooks: books => dispatch(ACTIONS_CREATOR.bookListFetchDataSuccess(books)),
-  addItemsToShoppingCart: item => dispatch(ACTIONS_CREATOR.addItemsToShoppingCart(item)),
-});
-
-export const BookList = connect(mapStateToProps, mapDispatchToProps)(BookListBeConnected);
+export const BookList = () => (
+  <WithList>
+    {(list, loading, error) => <BookListConnected list={list} loading={loading} error={error} />}
+  </WithList>
+);

@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import BookCard from '../../../components/book-card';
+import OrderListOptions from '../../../components/order-list-options';
+import { sortListByOption } from '../utils';
 
 export const BookListAsync = ({ error, list, isFetching, addItemsToShoppingCart }) => {
+  const [sortDirection, setSortDirection] = useState('ASC');
+  const [sortField, setSortField] = useState('price');
+
   if (isFetching) {
     return (
       <div className="book-list-async__loader-wrapper">
@@ -17,9 +22,24 @@ export const BookListAsync = ({ error, list, isFetching, addItemsToShoppingCart 
     return <p>Empty...</p>;
   }
 
-  const books = list.map((item, index) => (
+  const books = sortListByOption(list, {
+    direction: sortDirection,
+    field: sortField,
+  }).map((item, index) => (
     <BookCard key={index} book={item} addItemsToShoppingCart={addItemsToShoppingCart} />
   ));
 
-  return <div className="book-list-async">{books}</div>;
+  const handlerChange = sortOption => {
+    setSortDirection(sortOption.direction);
+    setSortField(sortOption.field);
+  };
+
+  return (
+    <div className="book-list-async">
+      <div>
+        <OrderListOptions onChange={handlerChange} />
+      </div>
+      {books}
+    </div>
+  );
 };
